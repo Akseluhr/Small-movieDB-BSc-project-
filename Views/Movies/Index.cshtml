@@ -1,0 +1,80 @@
+﻿@model PagedList.IPagedList<MVC_Lab3.Models.Movie>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Search", "Movies", FormMethod.Get))
+{
+    @Html.TextBox("search", ViewBag.search as string)
+    <input type="submit" name="submit" value="search" />
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().OriginalTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ReleaseYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Rating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Synopsis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Genre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Actors)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OriginalTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Synopsis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Actors)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.MovieID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.MovieID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MovieID })
+            </td>
+        </tr>
+    }
+
+</table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
